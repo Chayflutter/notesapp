@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/note_database.dart';
+import 'package:myapp/models/notes.dart';
 import 'package:provider/provider.dart';
 
 class Notespage extends StatefulWidget {
@@ -12,6 +13,12 @@ class Notespage extends StatefulWidget {
 class _NotespageState extends State<Notespage> {
   final textController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    readNote();
+  }
+
   void createNote() {
     showDialog(
         context: context,
@@ -22,7 +29,7 @@ class _NotespageState extends State<Notespage> {
               actions: [
                 MaterialButton(onPressed: () {
                   context.read<NoteDatabase>().addNote(textController.text);
-                  
+                  textController.clear();
             Navigator.pop(context);
                 },
                 child: const Text('Create'),)
@@ -30,8 +37,15 @@ class _NotespageState extends State<Notespage> {
             ));
   }
 
+  void readNote(){
+    context.watch<NoteDatabase>().fetchNotes();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final noteDatabase = context.watch<NoteDatabase>();
+    List <Note> currentNotes = noteDatabase.currentNotes;
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -51,6 +65,14 @@ class _NotespageState extends State<Notespage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100))),
       ),
+      body: ListView.builder(
+        itemCount: currentNotes.length,
+        itemBuilder: (context, index){
+        final note = currentNotes[index];
+        return ListTile(
+          title: Text(note.text),
+        );
+      }),
     );
   }
 }
