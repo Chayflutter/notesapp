@@ -10,6 +10,22 @@ class Notespage extends StatefulWidget {
   State<Notespage> createState() => _NotespageState();
 }
 
+
+
+class Page2 extends StatelessWidget {
+  const Page2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Center(
+        child: Text('Page 2'),
+      ),
+    );
+  }
+}
+
 class _NotespageState extends State<Notespage> {
   final textController = TextEditingController();
 
@@ -19,10 +35,18 @@ class _NotespageState extends State<Notespage> {
     readNote();
   }
 
+
+
   void createNote() {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
+   showGeneralDialog(
+    barrierColor: Colors.black.withOpacity(0.5),
+    transitionBuilder: (context, a1, a2, widget) {
+      final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;
+      return Transform(
+        transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+        child: Opacity(
+          opacity: a1.value,
+          child: AlertDialog(
               content: TextField(
                 controller: textController,
               ),
@@ -34,7 +58,15 @@ class _NotespageState extends State<Notespage> {
                 },
                 child: const Text('Create'),)
               ],
-            ));
+            ),
+        ),
+      );
+    },
+    transitionDuration: Duration(milliseconds: 200),
+    barrierDismissible: true,
+    barrierLabel: '',
+    context: context,
+    pageBuilder:  (context, animation1, animation2) =>const Page2());
   }
 
   void readNote(){
