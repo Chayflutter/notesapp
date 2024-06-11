@@ -62,7 +62,7 @@ class _NotespageState extends State<Notespage> {
         ),
       );
     },
-    transitionDuration: Duration(milliseconds: 400),
+    transitionDuration: Duration(milliseconds: 300),
     barrierDismissible: true,
     barrierLabel: '',
     context: context,
@@ -71,6 +71,45 @@ class _NotespageState extends State<Notespage> {
 
   void readNote(){
     context.read<NoteDatabase>().fetchNotes();
+  }
+
+  void updateNote( Note note){
+    textController.text = note.text;
+    
+    showGeneralDialog(
+    barrierColor: Colors.black.withOpacity(0.5),
+    transitionBuilder: (context, a1, a2, widget) {
+      final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;
+      return Transform(
+        transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+        child: Opacity(
+          opacity: a1.value,
+          child: AlertDialog(
+            
+            title: Text('Update note'),  content: TextField(
+                controller: textController,
+              ),
+              actions: [
+                MaterialButton(onPressed: () {
+                  context.read<NoteDatabase>().updateNote(note.id,textController.text);
+                  textController.clear();
+            Navigator.pop(context);
+                },
+                child: const Text('Update'),)
+              ],
+            ),
+        ),
+      );
+    },
+    transitionDuration: Duration(milliseconds: 300),
+    barrierDismissible: true,
+    barrierLabel: '',
+    context: context,
+    pageBuilder:  (context, animation1, animation2) =>const Page2());
+  }
+
+  void deleteNote( int id){
+    context.read<NoteDatabase>().deleteNote(id);
   }
 
   @override
@@ -103,6 +142,13 @@ class _NotespageState extends State<Notespage> {
         final note = currentNotes[index];
         return ListTile(
           title: Text(note.text),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(onPressed: ()=>updateNote(note), icon: Icon(Icons.edit_note)),
+              IconButton(onPressed: ()=>deleteNote(note.id), icon: Icon(Icons.delete))
+            ],
+          ),
         );
       }),
     );
