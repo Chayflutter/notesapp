@@ -4,7 +4,7 @@ import 'package:myapp/models/notes.dart';
 import 'package:provider/provider.dart';
 
 class Notespage extends StatefulWidget {
-  const Notespage({Key? key}) : super(key: key);
+  const Notespage({super.key});
 
   @override
   State<Notespage> createState() => _NotespageState();
@@ -62,7 +62,7 @@ class _NotespageState extends State<Notespage> {
         ),
       );
     },
-    transitionDuration: Duration(milliseconds: 200),
+    transitionDuration: Duration(milliseconds: 400),
     barrierDismissible: true,
     barrierLabel: '',
     context: context,
@@ -70,7 +70,7 @@ class _NotespageState extends State<Notespage> {
   }
 
   void readNote(){
-    context.watch<NoteDatabase>().fetchNotes();
+    context.read<NoteDatabase>().fetchNotes();
   }
 
   @override
