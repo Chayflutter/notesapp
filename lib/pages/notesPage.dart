@@ -67,6 +67,8 @@ class _NotespageState extends State<Notespage> {
     barrierLabel: '',
     context: context,
     pageBuilder:  (context, animation1, animation2) =>const Page2());
+    
+    
   }
 
   void readNote(){
