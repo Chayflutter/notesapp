@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/models/note_database.dart';
 import 'package:myapp/models/notes.dart';
 import 'package:provider/provider.dart';
@@ -210,10 +211,10 @@ class _NotespageState extends State<Notespage> {
                 children: [
                   IconButton(
                       onPressed: () => updateNote(note),
-                      icon: Icon(Icons.edit_note)),
+                      icon: const Icon(Icons.edit_note)),
                   IconButton(
                       onPressed: () => deleteNote(note.id),
-                      icon: Icon(Icons.delete))
+                      icon: const Icon(Icons.delete))
                 ],
               ),
             );
@@ -241,7 +242,7 @@ class NewScreen extends StatelessWidget {
         padding: const EdgeInsets.all(30.0),
         child: Text(
           data.text,
-          style: const TextStyle(fontSize: 24.0),
+          style:  const TextStyle(fontSize: 24.0),
         ),
       ),
     );
