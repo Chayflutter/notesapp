@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/models/note_database.dart';
 import 'package:myapp/models/notes.dart';
 import 'package:provider/provider.dart';
@@ -186,7 +185,7 @@ class _NotespageState extends State<Notespage> {
         child: FloatingActionButton(
             onPressed: createNote,
             child: const Icon(Icons.edit),
-            backgroundColor: Colors.amber.shade400,
+            backgroundColor: const Color.fromRGBO(255, 202, 40, 1),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100))),
       ),
