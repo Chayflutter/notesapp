@@ -14,8 +14,8 @@ class NoteDatabase extends ChangeNotifier{
 
   final List<Note> currentNotes = [];
 
-  Future<void> addNote(String text) async {
-    final newNote = Note()..text = text;
+  Future<void> addNote(String text, String heading ) async {
+    final newNote = Note()..text = text ..heading = heading;
 
     await isar.writeTxn(() => isar.notes.put(newNote));
 

@@ -26,6 +26,7 @@ class Page2 extends StatelessWidget {
 
 class _NotespageState extends State<Notespage> {
   final textController = TextEditingController();
+  final textController2 = TextEditingController();
 
   @override
   void initState() {
@@ -43,13 +44,21 @@ class _NotespageState extends State<Notespage> {
             child: Opacity(
               opacity: a1.value,
               child: AlertDialog(
-                content: TextField(
-                  controller: textController,
+                content: Column(
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(labelText: "Heading"),
+                      controller: textController2,
+                    ),
+                    TextField(
+                      controller: textController,
+                    ),
+                  ],
                 ),
                 actions: [
                   MaterialButton(
                     onPressed: () {
-                      context.read<NoteDatabase>().addNote(textController.text);
+                      context.read<NoteDatabase>().addNote(textController.text, textController2.text);
                       textController.clear();
                       Navigator.pop(context);
                     },
@@ -84,8 +93,15 @@ class _NotespageState extends State<Notespage> {
               opacity: a1.value,
               child: AlertDialog(
                 title: Text('Update note'),
-                content: TextField(
-                  controller: textController,
+                content: Column(
+                  children: [
+                    TextField(
+                      controller: textController,
+                    ),
+                    TextField(
+                      controller: textController2,
+                    ),
+                  ],
                 ),
                 actions: [
                   MaterialButton(
@@ -116,10 +132,7 @@ class _NotespageState extends State<Notespage> {
 
   void _navigateToNextScreen(BuildContext context, Note note) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) =>  NewScreen(),
-      settings: RouteSettings(
-        arguments: note.text,
-      ),
+      builder: (context) =>  NewScreen(data:note),
     ));
   }
 
@@ -152,13 +165,15 @@ class _NotespageState extends State<Notespage> {
           itemBuilder: (context, index) {
             final note = currentNotes[index];
             return ListTile(
-              title: Text(note.text,
+              title: Text(note.heading,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 13.0,
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.bold,
                   )),
+                  subtitle: Text(note.text),
+                  
               onTap: () {
                 _navigateToNextScreen(context, note);
               },
@@ -180,16 +195,17 @@ class _NotespageState extends State<Notespage> {
 }
 
 class NewScreen extends StatelessWidget {
-  const NewScreen({super.key});
+  final Note data;
+  const NewScreen({required this.data, super.key});
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments.toString();
+  
     return Scaffold(
-      appBar: AppBar(title: const Text('New Screen')),
+      appBar: AppBar(title: Text(data.heading)),
       body: Center(
         child: Text(
-          data,
-          style: TextStyle(fontSize: 24.0),
+          data.text,
+          style: const TextStyle(fontSize: 24.0),
         ),
       ),
     );
