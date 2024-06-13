@@ -51,6 +51,7 @@ class _NotespageState extends State<Notespage> {
                       controller: textController2,
                     ),
                     TextField(
+                      decoration: InputDecoration(labelText: "Note"),
                       controller: textController,
                     ),
                   ],
@@ -82,6 +83,7 @@ class _NotespageState extends State<Notespage> {
 
   void updateNote(Note note) {
     textController.text = note.text;
+    textController2.text = note.heading;
 
     showGeneralDialog(
         barrierColor: Colors.black.withOpacity(0.5),
@@ -96,10 +98,12 @@ class _NotespageState extends State<Notespage> {
                 content: Column(
                   children: [
                     TextField(
-                      controller: textController,
+                      decoration: InputDecoration(labelText: "Heading"),
+                      controller: textController2,
                     ),
                     TextField(
-                      controller: textController2,
+                      decoration: InputDecoration(labelText: "Note"),
+                      controller: textController,
                     ),
                   ],
                 ),
@@ -108,8 +112,9 @@ class _NotespageState extends State<Notespage> {
                     onPressed: () {
                       context
                           .read<NoteDatabase>()
-                          .updateNote(note.id, textController.text);
+                          .updateNote(note.id, textController.text, textController2.text);
                       textController.clear();
+                      textController2.clear();
                       Navigator.pop(context);
                     },
                     child: const Text('Update'),

@@ -29,10 +29,11 @@ class NoteDatabase extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateNote(int id, String newText)async{
+  Future<void> updateNote(int id, String newText, String newHeader)async{
     final existingNote = await isar.notes.get(id);
     if(existingNote != null){
       existingNote.text = newText;
+      existingNote.heading = newHeader;
       await isar.writeTxn(() => isar.notes.put(existingNote));
       await fetchNotes();
     }
