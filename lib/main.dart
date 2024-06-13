@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/models/note_database.dart';
 import 'package:provider/provider.dart';
 import 'pages/notesPage.dart';
@@ -17,7 +18,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
+      theme: ThemeData(
+        textTheme: GoogleFonts.latoTextTheme(
+      Theme.of(context).textTheme,
+    )
+      ),
       debugShowCheckedModeBanner: false,
       home: Notespage(),
     );

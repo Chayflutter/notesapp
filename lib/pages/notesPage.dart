@@ -44,7 +44,6 @@ class _NotespageState extends State<Notespage> {
             child: Opacity(
               opacity: a1.value,
               child: AlertDialog(
-                
                 title: Center(child: Text('Make a note!')),
                 content: Container(
                   height: 200,
@@ -54,11 +53,17 @@ class _NotespageState extends State<Notespage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextField(
-                          decoration: InputDecoration(labelText: "Heading", border: OutlineInputBorder()),
+                          decoration: InputDecoration(
+                              labelText: "Heading",
+                              border: OutlineInputBorder()),
                           controller: textController2,
-                        ),SizedBox(height: 20,),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         TextField(
-                          decoration: const InputDecoration(labelText: "Note", border: OutlineInputBorder()),
+                          decoration: const InputDecoration(
+                              labelText: "Note", border: OutlineInputBorder()),
                           controller: textController,
                         ),
                       ],
@@ -76,7 +81,9 @@ class _NotespageState extends State<Notespage> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      context.read<NoteDatabase>().addNote(textController.text, textController2.text);
+                      context
+                          .read<NoteDatabase>()
+                          .addNote(textController.text, textController2.text);
                       textController.clear();
                       textController2.clear();
                       Navigator.pop(context);
@@ -128,9 +135,8 @@ class _NotespageState extends State<Notespage> {
                 actions: [
                   MaterialButton(
                     onPressed: () {
-                      context
-                          .read<NoteDatabase>()
-                          .updateNote(note.id, textController.text, textController2.text);
+                      context.read<NoteDatabase>().updateNote(
+                          note.id, textController.text, textController2.text);
                       textController.clear();
                       textController2.clear();
                       Navigator.pop(context);
@@ -155,7 +161,7 @@ class _NotespageState extends State<Notespage> {
 
   void _navigateToNextScreen(BuildContext context, Note note) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) =>  NewScreen(data:note),
+      builder: (context) => NewScreen(data: note),
     ));
   }
 
@@ -195,8 +201,7 @@ class _NotespageState extends State<Notespage> {
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.bold,
                   )),
-                  subtitle: Text(note.text),
-                  
+              subtitle: Text(note.text),
               onTap: () {
                 _navigateToNextScreen(context, note);
               },
@@ -222,10 +227,18 @@ class NewScreen extends StatelessWidget {
   const NewScreen({required this.data, super.key});
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
-      appBar: AppBar(title: Text(data.heading)),
-      body: Center(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          data.heading,
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+        backgroundColor: Colors.blueAccent,
+        
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(30.0),
         child: Text(
           data.text,
           style: const TextStyle(fontSize: 24.0),
