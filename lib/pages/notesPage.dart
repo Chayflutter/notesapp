@@ -44,27 +44,45 @@ class _NotespageState extends State<Notespage> {
             child: Opacity(
               opacity: a1.value,
               child: AlertDialog(
-                content: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(labelText: "Heading"),
-                      controller: textController2,
+                
+                title: Center(child: Text('Make a note!')),
+                content: Container(
+                  height: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextField(
+                          decoration: InputDecoration(labelText: "Heading", border: OutlineInputBorder()),
+                          controller: textController2,
+                        ),SizedBox(height: 20,),
+                        TextField(
+                          decoration: const InputDecoration(labelText: "Note", border: OutlineInputBorder()),
+                          controller: textController,
+                        ),
+                      ],
                     ),
-                    TextField(
-                      decoration: InputDecoration(labelText: "Note"),
-                      controller: textController,
-                    ),
-                  ],
+                  ),
                 ),
                 actions: [
                   MaterialButton(
                     onPressed: () {
-                      context.read<NoteDatabase>().addNote(textController.text, textController2.text);
+                      textController2.clear();
                       textController.clear();
                       Navigator.pop(context);
                     },
+                    child: const Text('Cancel'),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      context.read<NoteDatabase>().addNote(textController.text, textController2.text);
+                      textController.clear();
+                      textController2.clear();
+                      Navigator.pop(context);
+                    },
                     child: const Text('Create'),
-                  )
+                  ),
                 ],
               ),
             ),
