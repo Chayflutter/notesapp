@@ -114,9 +114,13 @@ class _NotespageState extends State<Notespage> {
     context.read<NoteDatabase>().deleteNote(id);
   }
 
-  void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => NewScreen()));
+  void _navigateToNextScreen(BuildContext context, Note note) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) =>  NewScreen(),
+      settings: RouteSettings(
+        arguments: note.text,
+      ),
+    ));
   }
 
   @override
@@ -156,7 +160,7 @@ class _NotespageState extends State<Notespage> {
                     fontWeight: FontWeight.bold,
                   )),
               onTap: () {
-                _navigateToNextScreen(context);
+                _navigateToNextScreen(context, note);
               },
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -175,15 +179,16 @@ class _NotespageState extends State<Notespage> {
   }
 }
 
-
 class NewScreen extends StatelessWidget {
+  const NewScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final data = ModalRoute.of(context)!.settings.arguments.toString();
     return Scaffold(
       appBar: AppBar(title: const Text('New Screen')),
-      body: const Center(
+      body: Center(
         child: Text(
-          'This is a new screen',
+          data,
           style: TextStyle(fontSize: 24.0),
         ),
       ),
